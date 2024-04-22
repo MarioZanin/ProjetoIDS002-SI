@@ -3,11 +3,11 @@ Projeto do curso de SI da FATEC-Rubens Lara destinado a construção de uma API 
 Projeto de Construção de APIs
 
 ## Como baixar o projeto:
-pós acessar o repositório: MarioZanin/ProjetoIDS002-SI
+Após acessar o repositório: MarioZanin/ProjetoIDS002-SI.
 Clique no botão Code;
 Opte pela aba “Local”;
 Escolha a forma que deseja fazer o pull do programa. 
-Sugiro que faça pelo HTTPS copiando o link descrito (https://github.com/MarioZanin/ProjetoIDS002-SI.git)
+Sugiro que faça o PULL pelo HTTPS copiando o link descrito (https://github.com/MarioZanin/ProjetoIDS002-SI.git)
 Efetue o PULL da forma e no programa que desejar, salvando-o no local de sua preferência.
 Após e só ir e abrir o arquivo criado chamado "ProjetoIDSoo2-Si".
 Dentro deste diretório, acesse/abra a pasta "projeto-invetproduto" pois nela estará o projeto criado no qual deverá ser trabalhado.
