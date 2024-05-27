@@ -1,0 +1,32 @@
+{
+    "configurations": [
+
+        
+        {
+            "name": "Attach to Chrome",
+            "port": 8090,
+            "request": "attach",
+            "type": "chrome",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:8090",
+            "webRoot": "${workspaceFolder}"
+        },
+
+       
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<projeto-inventproduto>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.com.fatec.projetoinventproduto.Application",
+            "projectName": "projeto-inventproduto",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

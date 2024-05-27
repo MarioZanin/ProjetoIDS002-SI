@@ -2,7 +2,6 @@ package br.com.fatec.projetoinventproduto.service;
 
 import br.com.fatec.projetoinventproduto.model.Product;
 import br.com.fatec.projetoinventproduto.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +9,9 @@ import java.util.Optional;
 
 @Service
 public class ProductService {
+
     private final ProductRepository productRepository;
 
-    @Autowired
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
@@ -34,7 +33,7 @@ public class ProductService {
     }
 
     public Product updateProduct(Long id, Product updatedProduct) {
-        updatedProduct.setId(id); // Ensure correct ID is set for update
+        updatedProduct.setId(id);
         return productRepository.save(updatedProduct);
     }
 }

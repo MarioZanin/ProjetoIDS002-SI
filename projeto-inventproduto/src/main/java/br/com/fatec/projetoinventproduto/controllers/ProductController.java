@@ -2,141 +2,88 @@ package br.com.fatec.projetoinventproduto.controllers;
 
 import br.com.fatec.projetoinventproduto.model.Product;
 import br.com.fatec.projetoinventproduto.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
-
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/products")
-public class ProductController {
+@RequestMapping("/produto")
+public class ProductController implements IController<Product> {
 
-    private final ProductRepository productRepository;
+    @Autowired
+    private ProductService service;
 
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    @Override
+    @GetMapping(produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Resultado com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
+    @Operation(summary = "Retorna a lista de produtos")
+    public ResponseEntity<List<Product>> getAll() {
+        return ResponseEntity.ok(service.getAllProducts());
     }
 
-    // GET - Obter todos os produtos
-    @GetMapping
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    @Override
+    @GetMapping(value = "/{id}", produces = "application/json")
+    public ResponseEntity<Product> get(@PathVariable("id") Long id) {
+        Optional<Product> produto = service.getProductById(id);
+        return produto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // GET - Obter produto por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        Product product = productRepository.findById(id).orElse(null);
-        return product != null ? ResponseEntity.ok(product) : ResponseEntity.notFound().build();
-    }
-
-    // POST - Criar novo produto
+    @Override
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        return productRepository.save(product);
+    @Operation(summary = "Cria um produto")
+    public ResponseEntity<Product> post(@RequestBody Product product) {
+        Product createdProduct = service.createProduct(product);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdProduct.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(createdProduct);
     }
 
-    // DELETE - Excluir produto por ID
-    @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Long id) {
-        productRepository.deleteById(id);
-    }
-
-    // PUT - Substituir informações do produto
+    @Override
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        Product existingProduct = productRepository.findById(id).orElse(null);
-        if (existingProduct != null) {
-            existingProduct.setName(product.getName());
-            existingProduct.setDescription(product.getDescription());
-            existingProduct.setPrice(product.getPrice());
-            existingProduct.setQuantity(product.getQuantity());
-            existingProduct.setCategory(product.getCategory());
-            productRepository.save(existingProduct);
-            return ResponseEntity.ok(existingProduct);
-        } else {
-            return ResponseEntity.notFound().build();
+    @Operation(summary = "Atualiza um produto")
+    public ResponseEntity<Boolean> put(@PathVariable Long id, @RequestBody Product product) {
+        Optional<Product> existingProduct = service.getProductById(id);
+        if (existingProduct.isPresent()) {
+            service.updateProduct(id, product);
+            return ResponseEntity.ok(true);
         }
+        return ResponseEntity.notFound().build();
     }
 
-    // PATCH - Atualizar parcialmente o produto
+    @Override
     @PatchMapping("/{id}")
-    public ResponseEntity<Product> patchProduct(@PathVariable Long id, @RequestBody Product product) {
-        Product existingProduct = productRepository.findById(id).orElse(null);
-        if (existingProduct != null) {
-            if (product.getName() != null) {
-                existingProduct.setName(product.getName());
-            }
-            if (product.getDescription() != null) {
-                existingProduct.setDescription(product.getDescription());
-            }
-            if (product.getPrice() != null) {
-                existingProduct.setPrice(product.getPrice());
-            }
-            if (product.getQuantity() != null) {
-                existingProduct.setQuantity(product.getQuantity());
-            }
-            if (product.getCategory() != null) {
-                existingProduct.setCategory(product.getCategory());
-            }
-            productRepository.save(existingProduct);
-            return ResponseEntity.ok(existingProduct);
-        } else {
-            return ResponseEntity.notFound().build();
+    @Operation(summary = "Atualiza parcialmente um produto")
+    public ResponseEntity<Product> patch(@PathVariable Long id, @RequestBody Product product) {
+        Optional<Product> existingProduct = service.getProductById(id);
+        if (existingProduct.isPresent()) {
+            Product updatedProduct = service.updateProduct(id, product);
+            return ResponseEntity.ok(updatedProduct);
         }
+        return ResponseEntity.notFound().build();
+    }
+
+    @Override
+    @DeleteMapping(value = "/{id}")
+    @Operation(summary = "Exclui um produto")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+        if (service.getProductById(id).isPresent()) {
+            service.deleteProduct(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-//@Controller
-//@RequestMapping("/products") // Alterando o mapeamento da rota para "/products"
-//public class ProductController {
-//    private final ProductService productService;
-//    @Autowired
-//    public ProductController(ProductService productService) {
-//        this.productService = productService;
-//    }
-//    @GetMapping
-//    public String home(){
-//        return "Products";
-//    }
-//  @GetMapping
-    //public String showProductsPage(Model model) {
-    //    List<Product> products = productService.getAllProducts();
-    //    model.addAttribute("products", products); // Passando a lista de produtos para o modelo
-    //    return "products"; // Retorna o nome da página HTML sem extensão
-    //}
-//
-//    @GetMapping("/{id}")
-//    @ResponseBody
-//    public Product getProductById(@PathVariable Long id) {
-//        return productService.getProductById(id).orElse(null); // Retorna o produto ou null se não encontrado
-//    }
-//    @PostMapping
-//    @ResponseBody
-//    public Product createProduct(@RequestBody Product product) {
-//        return productService.createProduct(product);
-//    }
-//    @DeleteMapping("/{id}")
-//    public void deleteProduct(@PathVariable Long id) {
-//        productService.deleteProduct(id);
-//    }
-//    @PutMapping("/{id}")
-//    @ResponseBody
-//    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
-//        return productService.updateProduct(id, product);
-//    }
-//}
