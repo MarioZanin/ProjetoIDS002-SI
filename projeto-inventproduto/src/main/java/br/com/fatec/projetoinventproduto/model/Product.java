@@ -1,37 +1,26 @@
 package br.com.fatec.projetoinventproduto.model;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
+import jakarta.persistence.Column;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tb_produto")
-public class Product implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private String description;
-    private BigDecimal price;
-    private Integer quantity;
-    private String category;
-
-    // Default constructor
-    public Product() {
-    }
-
-    // Constructor with all fields
-    public Product(Long id, String name, String description, BigDecimal price, Integer quantity, String category) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.quantity = quantity;
-        this.category = category;
-    }
-
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Product extends AbstractEntity {
+    private static final long serialVersionUID = 1L;
+	@Column(name = "nm_nome", length = 60)
+	private String name;
+	@Column(name = "ds_descricao", length = 120)
+	private String description;
+    @Column(name = "pr_preco", nullable = false)
+	private BigDecimal price;
+	@Column(name = "qt_quantidade", nullable = false, length = 10)
+	private Integer quantity;
+	@Column(name = "ct_categoria", nullable = false, length = 100)
+	private String category;
+	
     // Getters and Setters
     public Long getId() {
         return id;
@@ -79,6 +68,9 @@ public class Product implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+    // Default constructor
+    public Product() {
     }
 
     @Override
