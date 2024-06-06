@@ -1,0 +1,136 @@
+/*Estilo para o corpo da página*/
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    position: relative; /*Necessário para o pseudo-elemento*/
+    background-color: #f8f9fa;
+}
+
+/*Adiciona a imagem de fundo com opacidade usando um pseudo-elemento*/
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('23.jpg') no-repeat center center fixed;
+    background-size: cover;
+    opacity: 0.6; /*Opacidade da imagem de fundo*/
+    z-index: -1; /*Pseudo-elemento atrás de todo o conteúdo*/
+}
+
+/*Estilo para o cabeçalho de navegação*/
+nav.navbar {
+    background-color: #007bff !important; /*Cor de fundo do navbar*/
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /*Adiciona sombra*/
+    transition: background-color 0.3s ease; /*Transição suave para a cor de fundo*/
+}
+
+.navbar-brand, .nav-link {
+    color: #ffffff !important;
+}
+
+.nav-link:hover {
+    color: #1e1e1f !important;
+}
+
+.nav-link.active {
+    background-color: #0056b3; 
+    color: #ffffff !important;
+    cursor: default; 
+    pointer-events: none; 
+}
+
+/* Estilo para o container principal*/
+.container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /*Fundo branco levemente transparentr */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out; /*Animação de fade in */
+}
+
+/*Estilo para o título principal */
+h1, h2 {
+    color: #007bff;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 700; 
+}
+
+/* Estilo para os formulários*/
+.form-label {
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/*Estilo para a tabela de produtos*/
+.table {
+    margin-top: 20px;
+    background-color: #fff;
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    animation: fadeInUp 1s ease-in-out; /*Animação de fade in up*/
+}
+
+.table thead {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    border: 1px solid #dee2e6;
+    transition: background-color 0.3s ease;
+}
+
+/*Estilo para o botão de adicionar produto*/
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; 
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.5);
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.5); /*Aumenta a sombra ao passar o mouse*/
+    transform: translateY(-2px); /*Move o botão um pouco para cima ao passar o mouse*/
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
