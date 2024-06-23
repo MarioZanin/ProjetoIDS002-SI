@@ -1,7 +1,12 @@
 {
     "configurations": [
-
-        
+        {
+            "type": "java",
+            "name": "InventarioprodutoApplication",
+            "request": "launch",
+            "mainClass": "com.br.fatec.inventarioproduto.InventarioprodutoApplication",
+            "projectName": "inventarioproduto"
+        },
         {
             "name": "Attach to Chrome",
             "port": 8090,
@@ -16,17 +21,16 @@
             "url": "http://localhost:8090",
             "webRoot": "${workspaceFolder}"
         },
-
-       
         {
             "type": "java",
-            "name": "Spring Boot-Application<projeto-inventproduto>",
+            "name": "Spring Boot-InventarioprodutoApplication<inventarioproduto>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "br.com.fatec.projetoinventproduto.Application",
-            "projectName": "projeto-inventproduto",
+            "mainClass": "com.br.fatec.inventarioproduto.InventarioprodutoApplication",
+            "projectName": "inventarioproduto",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        }
         }
     ]
 }

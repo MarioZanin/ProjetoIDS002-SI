@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimentação de Estoque</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Inventário de Produtos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link"  href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="products.html">Lista de Produtos/Fornecedores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="home.html">Movimentação</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <h2>Movimentações de Estoque</h2>
+        <form id="movimentacao-form" class="mb-4">
+            <div class="mb-3">
+                <label for="product_id" class="form-label">Produto</label>
+                <select class="form-control" id="product_id" required>
+                    <!-- Opções de produtos serão carregadas dinamicamente -->
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="tipo_movimentacao" class="form-label">Tipo de Movimentação</label>
+                <select class="form-control" id="tipo_movimentacao" required>
+                    <option value="entrada">Entrada</option>
+                    <option value="saida">Saída</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="quantidade" class="form-label">Quantidade</label>
+                <input type="number" class="form-control" id="quantidade" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar Movimentação</button>
+        </form>
+        <h2>Pesquisar Produtos</h2>
+        <form id="search-form" class="mb-4">
+            <div class="mb-3">
+                <label for="search_query" class="form-label">Nome do Produto</label>
+                <input type="text" class="form-control" id="search_query" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Pesquisar</button>
+        </form>
+        <h2>Resultado da Pesquisa</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                    <th>Quantidade</th>
+                    <th>Categoria</th>
+                    <th>Fornecedor</th>
+                </tr>
+            </thead>
+            <tbody id="search-results">
+                <!-- Aqui serão exibidos os resultados da pesquisa -->
+            </tbody>
+        </table>
+    </div>
+    <!-- jQuery e Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Função para carregar produtos
+            function loadProducts() {
+                $.ajax({
+                    url: '/api/products',
+                    method: 'GET',
+                    success: function(products) {
+                        const productSelect = $('#product_id');
+                        productSelect.empty();
+                        products.forEach(product => {
+                            const option = `<option value="${product.id}">${product.name}</option>`;
+                            productSelect.append(option);
+                        });
+                    }
+                });
+            }
+
+            // Carregar produtos ao carregar a página
+            loadProducts();
+
+            // Função para registrar movimentação
+            $('#movimentacao-form').on('submit', function(e) {
+                e.preventDefault();
+                const movimentacao = {
+                    product_id: $('#product_id').val(),
+                    tipo_movimentacao: $('#tipo_movimentacao').val(),
+                    quantidade: $('#quantidade').val()
+                };
+                $.ajax({
+                    url: '/api/movimentacoes',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(movimentacao),
+                    success: function() {
+                        $('#movimentacao-form')[0].reset();
+                    }
+                });
+            });
+
+            // Função para pesquisar produtos
+            $('#search-form').on('submit', function(e) {
+                e.preventDefault();
+                const query = $('#search_query').val();
+                $.ajax({
+                    url: '/api/products/search',
+                    method: 'GET',
+                    data: { query: query },
+                    success: function(products) {
+                        const tableBody = $('#search-results');
+                        tableBody.empty();
+                        products.forEach(product => {
+                            const row = `<tr>
+                                <td>${product.id}</td>
+                                <td>${product.name}</td>
+                                <td>${product.description}</td>
+                                <td>${product.price}</td>
+                                <td>${product.quantity}</td>
+                                <td>${product.category}</td>
+                                <td>${product.fornecedor}</td>
+                            </tr>`;
+                            tableBody.append(row);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
