@@ -16,3 +16,4 @@ public interface MovimentacaoService {
     boolean delete(Long id);
     Page<Movimentacao> findAll(Pageable pageable);
 }
+

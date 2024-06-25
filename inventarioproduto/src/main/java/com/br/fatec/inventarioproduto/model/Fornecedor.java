@@ -1,10 +1,9 @@
 package com.br.fatec.inventarioproduto.model;
 
+
 import lombok.Data;
 
-
 import java.time.LocalDateTime;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,16 +19,16 @@ public class Fornecedor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(max = 100)
+    @NotBlank(groups = {FullValidationGroup.class})
+    @Size(max = 100, groups = {FullValidationGroup.class, PartialValidationGroup.class})
     private String nm_fornecedor;
 
-    @NotBlank
-    @Pattern(regexp = "\\d{14}")
+    @NotBlank(groups = {FullValidationGroup.class})
+    @Pattern(regexp = "\\d{14}", groups = {FullValidationGroup.class, PartialValidationGroup.class})
     private String cd_cnpj;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank(groups = {FullValidationGroup.class})
+    @Size(max = 255, groups = {FullValidationGroup.class, PartialValidationGroup.class})
     private String endereco;
 
     private LocalDateTime data_entrada;

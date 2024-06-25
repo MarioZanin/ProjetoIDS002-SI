@@ -17,3 +17,4 @@ public interface MovimentacaoMapper {
 
     List<MovimentacaoDTO> toDTOList(List<Movimentacao> entities);
 }
+

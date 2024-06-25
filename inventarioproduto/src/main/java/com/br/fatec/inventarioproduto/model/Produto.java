@@ -1,11 +1,6 @@
 package com.br.fatec.inventarioproduto.model;
-
 import lombok.Data;
-
 import java.math.BigDecimal;
-
-
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,25 +14,19 @@ public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank
+    @NotBlank(groups = {FullValidationGroup.class, PartialValidationGroup.class})
     private String nm_nome;
-
-    @NotNull
-    @Positive
-    private int qt_Minima;
-
-    @NotNull
-    @Positive
-    private int qt_Maxima;
-
-    @NotNull
+    @NotNull(groups = {FullValidationGroup.class, PartialValidationGroup.class})
+    @Positive(groups = {FullValidationGroup.class, PartialValidationGroup.class})
+    private Integer qt_Minima;
+    @NotNull(groups = {FullValidationGroup.class, PartialValidationGroup.class})
+    @Positive(groups = {FullValidationGroup.class, PartialValidationGroup.class})
+    private Integer qt_Maxima;
+    @NotNull(groups = {FullValidationGroup.class, PartialValidationGroup.class})
     private BigDecimal pr_preco;
-
-    @NotBlank
+    @NotBlank(groups = {FullValidationGroup.class, PartialValidationGroup.class})
     private String ct_categoria;
-
-    @NotNull
-    @Positive
-    private int qt_quantidade;
+    @NotNull(groups = {FullValidationGroup.class, PartialValidationGroup.class})
+    @Positive(groups = {FullValidationGroup.class, PartialValidationGroup.class})
+    private Integer qt_quantidade;
 }
