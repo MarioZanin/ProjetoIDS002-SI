@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
@@ -43,13 +43,12 @@ public class MovimentacaoController {
         return ResponseEntity.notFound().build();
     }
 
-    @SuppressWarnings("unused")
     @PostMapping
     @Operation(summary = "Cria uma movimentação")
     public ResponseEntity<Movimentacao> post(@RequestBody @Valid MovimentacaoDTO movimentacaoDTO) {
         Movimentacao movimentacao = service.create(movimentacaoDTO);
         URI location = URI.create(String.format("/api/movimentacao/%s", movimentacao.getId()));
-        return ResponseEntity.ok(movimentacao);
+        return ResponseEntity.created(location).body(movimentacao);
     }
 
     @PutMapping("/{id}")
