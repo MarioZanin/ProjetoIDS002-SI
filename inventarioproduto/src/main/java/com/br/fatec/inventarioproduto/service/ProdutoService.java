@@ -56,15 +56,19 @@ public class ProdutoService {
         return false;
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     public Produto movimentarProduto(MovimentacaoDTO movimentacaoDTO) {
         Produto produto = findById(movimentacaoDTO.getProdutoId());
         if (produto != null) {
-            if (movimentacaoDTO.getTipoMovimentacao() == TipoMovimentacao.ENTRADA) {
-                produto.setQt_quantidade(produto.getQt_quantidade() + movimentacaoDTO.getQuantidade());
-            } else if (movimentacaoDTO.getTipoMovimentacao() == TipoMovimentacao.SAIDA) {
-                produto.setQt_quantidade(produto.getQt_quantidade() - movimentacaoDTO.getQuantidade());
+            String tipoMovimentacao = movimentacaoDTO.getTipoMovimentacao();
+            if (tipoMovimentacao != null) {
+                if (tipoMovimentacao.equals(TipoMovimentacao.ENTRADA)) {
+                    produto.setQt_quantidade(produto.getQt_quantidade() + movimentacaoDTO.getQuantidade());
+                } else if (tipoMovimentacao.equals(TipoMovimentacao.SAIDA)) {
+                    produto.setQt_quantidade(produto.getQt_quantidade() - movimentacaoDTO.getQuantidade());
+                }
+                return repository.save(produto);
             }
-            return repository.save(produto);
         }
         return null;
     }

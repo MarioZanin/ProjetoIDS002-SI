@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -35,5 +36,11 @@ public class Movimentacao {
 
     @NotNull
     private TipoMovimentacao tipo_movimentacao;
+
+
+    @PrePersist
+    protected void onCreate() {
+        this.data_movimentacao = LocalDateTime.now();
+    }
 }
 

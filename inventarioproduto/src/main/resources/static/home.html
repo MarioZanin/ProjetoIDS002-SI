@@ -22,7 +22,10 @@
                         <a class="nav-link"  href="index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="products.html">Lista de Produtos/Fornecedores</a>
+                        <a class="nav-link" href="products.html">Lista de Produtos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="fornecedor.html">Lista de Fornecedores</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="home.html">Movimentação</a>
@@ -31,7 +34,7 @@
             </div>
         </div>
     </nav>
-    <div class="container mt-4">
+    <div class="container mt-4" th:controller="com.br.fatec.inventarioproduto.MovimentacaoController">
         <h2>Movimentações de Estoque</h2>
         <form id="movimentacao-form" class="mb-4">
             <div class="mb-3">
@@ -152,3 +155,4 @@
     </script>
 </body>
 </html>
+ 

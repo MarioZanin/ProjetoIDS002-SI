@@ -43,4 +43,9 @@ public class Produto {
     @Null(groups = PartialValidationGroup.class)
     @Positive(groups = FullValidationGroup.class)
     private Integer qt_quantidade;
+
+    // Getter and Setter for id
+    public Long getId() {
+        return id;
+    }
 }

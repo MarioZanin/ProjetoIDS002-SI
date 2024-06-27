@@ -32,4 +32,9 @@ public class Fornecedor {
     private String endereco;
 
     private LocalDateTime data_entrada;
+
+    // Getter and Setter for id
+    public Long getId() {
+        return id;
+    }
 }

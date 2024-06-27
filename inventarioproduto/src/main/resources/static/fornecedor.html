@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Fornecedores</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Inventário de Produtos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="products.html">Cadastro de Produtos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="fornecedor.html">Cadastro de Fornecedores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="movimentacao.html">Movimentação</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4" th:controller="com.br.fatec.inventarioproduto.FornecedoresController"> 
+        <h1>Cadastro de Fornecedores</h1>
+        <form id="fornecedor-form" class="mb-4">
+            <div class="mb-3">
+                <label for="nm_fornecedor" class="form-label">Nome do Fornecedor</label>
+                <input type="text" class="form-control" id="nm_fornecedor" th:field="*{nmFornecedor}" required>
+            </div>
+            <div class="mb-3">
+                <label for="cd_cnpj" class="form-label">CNPJ</label>
+                <input type="text" class="form-control" id="cd_cnpj" th:field="*{cdCnpj}" required>
+            </div>
+            <div class="mb-3">
+                <label for="endereco" class="form-label">Endereço</label>
+                <input type="text" class="form-control" id="endereco" th:field="*{endereco}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Adicionar Fornecedor</button>
+        </form>
+        <h2>Fornecedores Cadastrados</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>CNPJ</th>
+                    <th>Endereço</th>
+                </tr>
+            </thead>
+            <tbody id="fornecedores-table-body">
+                <!-- Aqui serão exibidos os fornecedores dinamicamente -->
+                <tr th:each="f : ${fornecedores}">
+                    <td th:text="${f.id}"></td>
+                    <td th:text="${f.nmFornecedor}"></td>
+                    <td th:text="${f.cdCnpj}"></td>
+                    <td th:text="${f.endereco}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+ 
